@@ -125,6 +125,9 @@ void run()
   std::vector<T> b(ARRAY_SIZE);
   std::vector<T> c(ARRAY_SIZE);
 
+  for (int i = 0; i < ARRAY_SIZE; i++)
+    a[i] = startA;
+  
   // Result of the Dot kernel
   T sum;
 

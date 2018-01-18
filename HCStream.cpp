@@ -92,7 +92,8 @@ void HCStream<T>::init_arrays(T _a, T _b, T _c)
 {
 #ifdef MANAGED
 #ifdef READ_ONLY
-  hc::array_view<T,1> view_a(array_size, h_a);
+  //  hc::array_view<T,1> view_a(array_size, h_a);
+  //  hc::array_view<T,1> view_a(this->d_a);
   hc::array_view<T,1> view_b(this->d_b);
   hc::array_view<T,1> view_c(this->d_c);
 #else
@@ -108,10 +109,10 @@ void HCStream<T>::init_arrays(T _a, T _b, T _c)
 
 
 
-  hc::completion_future future_a= hc::parallel_for_each(hc::extent<1>(array_size)
-                                , [=](hc::index<1> i) [[hc]] {
-                                  view_a[i] = _a;
-                                });
+  // hc::completion_future future_a= hc::parallel_for_each(hc::extent<1>(array_size)
+  //                               , [=](hc::index<1> i) [[hc]] {
+  //                                 view_a[i] = _a;
+  //                               });
 
   hc::completion_future future_b= hc::parallel_for_each(hc::extent<1>(array_size)
                                                         , [=](hc::index<1> i) [[hc]] {
@@ -122,7 +123,7 @@ void HCStream<T>::init_arrays(T _a, T _b, T _c)
                                                           view_c[i] = _c;
                                                         });
   try{
-    future_a.wait();
+    //    future_a.wait();
     future_b.wait();
     future_c.wait();
   }
@@ -156,7 +157,8 @@ void HCStream<T>::copy()
 
 #ifdef MANAGED
 #ifdef READ_ONLY
-  hc::array_view<const T,1> view_a(array_size, h_a);
+  hc::array_view<T,1> view_a(array_size, h_a);
+  //  hc::array_view<const T,1> view_a(array_size, h_a);
   hc::array_view<T,1> view_c = this->d_c;
 #else
   hc::array_view<T,1> view_a(array_size, h_a);
@@ -217,6 +219,7 @@ void HCStream<T>::add()
 
 #ifdef MANAGED
 #ifdef READ_ONLY
+  //  hc::array_view<T,1> view_a(this->d_a);
   hc::array_view<const T,1> view_a(array_size, h_a);
   hc::array_view<T,1> view_b(this->d_b);
   hc::array_view<T,1> view_c(this->d_c);
