@@ -12,7 +12,11 @@ endif
 
 ifdef READ
 RW=-DREAD_ONLY
-else
+endif
+ifdef WRITE
+RW=-DWRITE_ONLY
+endif
+ifdef READ_WRITE
 RW=-DREAD_WRITE
 endif 
 
